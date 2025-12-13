@@ -11,7 +11,9 @@ app.use(express.json())
 const port = process.env.PORT;
 
 app.post('/api/webhook',webhookController)
-
+app.get("/",(_,res)=>{
+    res.send("WEBHOOK API WORKING")
+})
 app.listen(port, () => {
   console.log(port);
 });

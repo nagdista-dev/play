@@ -8,7 +8,7 @@ const webhookController = async (req, res) => {
       "svix-timestamp": req.headers["svix-timestamp"],
       "svix-signature": req.headers["svix-signature"],
     };
-    const whook = new Webhook(process.env.CLERK_WEBHOOK_KEY);
+    const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET);
     console.log("before verifying");
     whook.verify(JSON.stringify(req.body), headers);
     console.log("after verifying");
@@ -27,11 +27,11 @@ const webhookController = async (req, res) => {
       console.log("user Created");
       res.json({ message: "user created successfully" });
     } else if (type === "user.updated") {
-      const user = await User.findByIdAndUpdate(data.id, newUser);
+      await User.findByIdAndUpdate(data.id, newUser);
       console.log("user updated");
       res.json({ message: "user updated successfully" });
     } else if (type === "user.deleted") {
-      const user = await User.findByIdAndDelete(data.id);
+       await User.findByIdAndDelete(data.id);
       console.log("user deleted");
       res.json({ message: "user deleted successfully" });
     } else {

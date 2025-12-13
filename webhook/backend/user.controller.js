@@ -72,7 +72,7 @@ const webhookController = async (req, res) => {
     };
 
     console.log("Parsed user:", newUser);
-
+    console.log("type", type);
     if (type === "user.created") {
       await User.create(newUser);
       console.log("User created");
@@ -93,7 +93,6 @@ const webhookController = async (req, res) => {
 
     console.log("None of the three statuses");
     return res.json({ message: "Webhook received but no action taken" });
-
   } catch (error) {
     console.error("Webhook error:", error.message);
     return res.status(400).json({ error: error.message });

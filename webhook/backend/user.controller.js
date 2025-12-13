@@ -9,8 +9,9 @@ const webhookController = async (req, res) => {
       "svix-signature": req.headers["svix-signature"],
     };
     const whook = new Webhook(process.env.CLERK_WEBHOOK_KEY);
-
-    whook.verify(JSON.stringify(req.body), headers);
+console.log('before verifying')
+whook.verify(JSON.stringify(req.body), headers);
+console.log('after verifying')
     // !
     const { data, type } = req.body;
 
@@ -23,12 +24,14 @@ const webhookController = async (req, res) => {
 
     if (type === "user.created") {
       await User.create(newUser);
+      console.log("user Created")
     } else if (type === "user.updated") {
       const user = await User.findByIdAndUpdate(data.id, newUser);
-      user.save();
+            console.log("user updated")
+
     } else if (type === "user.deleted") {
       const user = await User.findByIdAndDelete(data.id);
-      user.save();
+      console.log("user deleted")
     } else {
       console.log("non of three status");
     }

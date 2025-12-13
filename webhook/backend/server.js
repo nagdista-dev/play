@@ -8,7 +8,7 @@ await connectDB();
 const app = express();
 app.use(cors());
 app.use(express.json())
-const port = process.env.PORT;
+const port = process.env.PORT || 3001;
 
 app.post('/api/webhook',webhookController)
 app.get("/",(_,res)=>{

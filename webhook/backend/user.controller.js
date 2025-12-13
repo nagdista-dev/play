@@ -37,6 +37,7 @@ console.log(newUser)
     res.json({ message: "Webhook received" });
   } catch (error) {
     console.log(error.message);
+    res.json(error.message)
   }
 };
 

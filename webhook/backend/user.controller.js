@@ -21,19 +21,16 @@ const webhookController = async (req, res) => {
       email: data?.email_addresses?.[0]?.email_address || null,
       image: data?.image_url,
     };
-
+console.log(newUser)
     if (type === "user.created") {
       await User.create(newUser);
       console.log("user Created");
-      res.json({ message: "user created successfully" });
     } else if (type === "user.updated") {
       await User.findByIdAndUpdate(data.id, newUser);
       console.log("user updated");
-      res.json({ message: "user updated successfully" });
     } else if (type === "user.deleted") {
        await User.findByIdAndDelete(data.id);
       console.log("user deleted");
-      res.json({ message: "user deleted successfully" });
     } else {
       console.log("non of three status");
     }

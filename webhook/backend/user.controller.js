@@ -58,7 +58,7 @@ const webhookController = async (req, res) => {
 
     console.log("before verifying");
 
-    whook.verify(JSON.stringify(req.body), headers);
+    whook.verify(req.body.toString(), headers);
 
     console.log("after verifying");
 

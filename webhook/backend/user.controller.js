@@ -58,11 +58,11 @@ const webhookController = async (req, res) => {
 
     console.log("before verifying");
 
-    whook.verify(req.body.toString(), headers);
+    whook.verify(JSON.stringify(req.body), headers);
 
     console.log("after verifying");
 
-    const { data, type } = JSON.parse(req.body.toString());
+    const { data, type } = req.body;
 
     const newUser = {
       _id: data?.id,

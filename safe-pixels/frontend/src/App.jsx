@@ -10,7 +10,7 @@ const App = () => {
   const getAllImages = async () => {
     try {
       const { data } = await axios.get(`${backendURL}/images/all`);
-      console.log("Fetched Images:", data); 
+      console.log("Fetched Images:", data);
       setAllImages(data);
     } catch (error) {
       console.error("Error fetching images:", error);
@@ -24,7 +24,7 @@ const App = () => {
   return (
     <div>
       <Navbar />
-      <div className="flex items-center justify-center gap-5 mt-5 flex-wrap">
+      <div className=" w-full px-10 flex items-center justify-between gap-5 mt-5 flex-wrap">
         {allImages.map((image) => (
           <ImageCard
             key={image._id}

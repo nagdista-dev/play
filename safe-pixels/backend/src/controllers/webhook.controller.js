@@ -3,16 +3,13 @@ import User from "../models/User.js";
 // !Start Building
 const webhookController = async (req, res) => {
   try {
-    console.log("webhook controller starting")
     const headers = {
       "svix-id": req.headers["svix-id"],
       "svix-timestamp": req.headers["svix-timestamp"],
       "svix-signature": req.headers["svix-signature"],
     };
     const payload = JSON.stringify(req.body);
-    console.log(payload)
     whook.verify(payload, headers);
-    console.log("after verify")
     const { data, type } = req.body;
     const newUser = {
       _id: data.id,
@@ -21,7 +18,6 @@ const webhookController = async (req, res) => {
     };
 
     if (type === "user.created") {
-      console.log("user created")
       await User.create(newUser);
       return res.json({
         message: "User Created Successfully",

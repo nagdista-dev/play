@@ -4,6 +4,7 @@ import cors from "cors";
 import connectDB from "./configs/mongo.js";
 import { clerkMiddleware } from "@clerk/express";
 import webhookController from "./controllers/webhook.controller.js";
+import imageRouter from "./routes/image.route.js";
 
 // !Start Building
 await connectDB();
@@ -20,6 +21,8 @@ app.get("/", (_, res) => {
 });
 // !Webhook Route
 app.post("/api/webhook", webhookController);
+// !Image Router
+app.use("/api/images", imageRouter);
 // !Listing
 app.listen(port, () => {
   console.log("Server Listing On :", port);

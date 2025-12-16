@@ -19,7 +19,7 @@ app.get("/", (_, res) => {
   res.json({ message: "Safe Pixels API" });
 });
 // !Webhook Route
-app.use("/api/webhook", webhookController);
+app.post("/api/webhook", webhookController);
 // !Listing
 app.listen(port, () => {
   console.log("Server Listing On :", port);

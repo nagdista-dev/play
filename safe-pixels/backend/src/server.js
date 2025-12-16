@@ -13,7 +13,12 @@ const app = express();
 const port = process.env.PORT || 3001;
 // !Middlewares
 app.use(clerkMiddleware());
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://safe-piexels.vercel.app/api",
+    credentials: true, // لو هتبعت cookies أو headers auth
+  })
+);
 app.use(express.json());
 // !Test Route
 app.get("/", (_, res) => {

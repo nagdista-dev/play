@@ -16,9 +16,30 @@ const webhookController = async (req, res) => {
       name: `${data.first_name} ${data.last_name}`,
       email: data.email_addresses[0].email_address,
     };
-    await User.create(newUser);
-    res.json({ message: "User Created Successfully", name: newUser.name });
-    // !Response
+
+    if (type === "user.created") {
+      await User.create(newUser);
+      return res.json({
+        message: "User Created Successfully",
+        name: newUser.name,
+      });
+    } else if (type === "user.updated") {
+      const user = await User.findByIdAndUpdate(data.id, newUser);
+      await user.save();
+      return res.json({
+        message: "User Updated Successfully",
+        name: newUser.name,
+      });
+    } else if (type === "user.deleted") {
+      await User.findByIdAndDelete(data.id);
+      return res.json({
+        message: "User Deleted Successfully",
+      });
+    } else {
+      return res.json({
+        message: "Empty Response",
+      });
+    }
   } catch (error) {
     res.json(error.message);
   }

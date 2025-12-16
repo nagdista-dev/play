@@ -15,8 +15,7 @@ const port = process.env.PORT || 3001;
 app.use(clerkMiddleware());
 app.use(
   cors({
-    origin: "https://safe-piexels.vercel.app/api",
-    credentials: true, // لو هتبعت cookies أو headers auth
+    origin: ["https://play-zeta-jade.vercel.app", "http://localhost:5173"],
   })
 );
 app.use(express.json());

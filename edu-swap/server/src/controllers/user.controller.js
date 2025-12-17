@@ -25,6 +25,12 @@ export const signUp = async (req, res) => {
       return res.json({ message: "All Fields Are Required" });
     }
 
+    const isUserExisted = await User.findOne({ email });
+
+    if (isUserExisted) {
+      return res.json({ message: "User Already Existed" });
+    }
+
     if (password.length < 8) {
       return res.json({ message: "Password must be greater than 7 chars" });
     }
@@ -32,7 +38,7 @@ export const signUp = async (req, res) => {
     const hashedPass = await hashPasswordFunc(password);
 
     const newUser = await User.create({ name, email, password: hashedPass });
-    const token =  generateToken({ userId: newUser._id });
+    const token = generateToken({ userId: newUser._id });
     res.json({
       message: "User Created Successfully",
       user: { name: newUser.name, email: newUser.email, token },
@@ -73,11 +79,9 @@ export const login = async (req, res) => {
 };
 
 // !Update Profile Picture
-
 export const updateProfilePic = async (req, res) => {
   try {
-    const userId = "6942a5f63d936f46da3d993b";
-    const user = await User.findById(userId);
+    const {userId} = req.user;
     const profilePic = req.file;
     if (!profilePic) {
       return res.json({ message: "image not found" });
@@ -97,6 +101,26 @@ export const updateProfilePic = async (req, res) => {
     );
     return res.json({
       message: "Profile Picture Updated Successfully",
+    });
+  } catch (error) {
+    res.json(error.message);
+  }
+};
+
+// !Get User
+
+export const getUser = async (req, res) => {
+  try {
+    const { userId } = req.user;
+
+    const user = await User.findById(userId).select("-password");
+
+    if (!user) {
+      return res.json({ message: "Auth Failed" });
+    }
+
+    res.json({
+      user,
     });
   } catch (error) {
     res.json(error.message);
